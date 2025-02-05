@@ -20,7 +20,7 @@
       --bg-color: #F5F0E1; /* خلفية بيج أنيقة */
       --section-bg: linear-gradient(135deg, #2E4053, #1B2631); /* مزيج ألوان فاخر */
       --section-border: var(--accent-color);
-      --text-color: #F1C40F;
+      --text-color: #ECF0F1;
       --input-bg: #2C3E50; /* لون المدخلات */
     }
 
@@ -628,7 +628,7 @@
     
     <!-- قسم مقدمة تعريفية -->
     <div class="section">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-info-circle"></i>
         <h2>مقدمة تعريفية</h2>
       </div>
@@ -665,45 +665,45 @@
     
     <!-- إعدادات العملة -->
     <div class="section">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-coins"></i>
         <h2>إعدادات العملة</h2>
       </div>
       <div class="input-group">
-        <label>سعر صرف الدولار (USD) مقابل الريال (YER):</label>
+        <label style="color: #F1C40F;">سعر صرف الدولار (USD) مقابل الريال (YER):</label>
         <input type="number" id="exchangeRate" placeholder="أدخل سعر الصرف" required>
       </div>
     </div>
     
     <!-- البيانات الأساسية -->
     <div class="section">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-building"></i>
         <h2>البيانات الأساسية</h2>
       </div>
       <div class="input-group">
-        <label>اسم الشركة/المؤسسة:</label>
+        <label style="color: #F1C40F;">اسم الشركة/المؤسسة:</label>
         <input type="text" id="companyName" placeholder="أدخل اسم الشركة" required>
       </div>
       <div class="input-group">
-        <label>اسم المقاول المسؤول:</label>
+        <label style="color: #F1C40F;">اسم المقاول المسؤول:</label>
         <input type="text" id="contractorName" placeholder="أدخل اسم المقاول" required>
       </div>
       
     <div class="input-group">
-      <label>رقم السجل التجاري:</label>
+      <label style="color: #F1C40F;">رقم السجل التجاري:</label>
       <input type="text" id="businessRegNumber" placeholder="أدخل رقم السجل التجاري">
     </div>
     <div class="input-group">
-      <label>نوع النشاط / التخصص:</label>
+      <label style="color: #F1C40F;">نوع النشاط / التخصص:</label>
       <input type="text" id="businessType" placeholder="أدخل نوع النشاط أو التخصص">
     </div>
     <div class="input-group">
-      <label>تصنيف الشركة:</label>
+      <label style="color: #F1C40F;">تصنيف الشركة:</label>
       <input type="text" id="companyClassification" placeholder="أدخل تصنيف الشركة إن وجد">
     </div>
     <div class="input-group">
-      <label>حجم الشركة:</label>
+      <label style="color: #F1C40F;">حجم الشركة:</label>
       <select id="companySize">
         <option value="small">شركة صغيرة</option>
         <option value="medium">شركة متوسطة</option>
@@ -711,14 +711,14 @@
       </select>
     </div>
 <div class="input-group">
-        <label>رقم الهاتف:</label>
+        <label style="color: #F1C40F;">رقم الهاتف:</label>
         <input type="tel" id="phoneNumber" placeholder="أدخل رقم الهاتف" required>
       </div>
     </div>
     
     <!-- قسم حساب الأضرار وأنواعها -->
     <div class="section" id="damageCalculators">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-calculator"></i>
         <h2>قسم حساب الأضرار وأنواعها</h2>
       </div>
@@ -731,7 +731,7 @@
       <!-- (أولاً: الأضرار المباشرة) -->
       <!-- 1. أضرار الأصول الثابتة -->
       <div class="section" id="fixedAssets">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-building"></i>
           <h2>أضرار الأصول الثابتة</h2>
         </div>
@@ -777,7 +777,7 @@
       
       <!-- 2. أضرار المخزون والمواد -->
       <div class="section" id="inventoryDamage">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-box"></i>
           <h2>أضرار المخزون والمواد</h2>
         </div>
@@ -822,7 +822,7 @@
       
       <!-- 3. خسارة الكوادر البشرية -->
       <div class="section" id="humanLosses">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-users"></i>
           <h2>خسارة الكوادر البشرية</h2>
         </div>
@@ -863,7 +863,7 @@
       
       <!-- 4. الأضرار المالية والتدفقات النقدية -->
       <div class="section" id="financialDirect">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-money-bill-wave"></i>
           <h2>الأضرار المالية والتدفقات النقدية</h2>
         </div>
@@ -904,7 +904,7 @@
       
       <!-- 5. الخسائر التشغيلية -->
       <div class="section" id="operationalLosses">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-cogs"></i>
           <h2>الخسائر التشغيلية</h2>
         </div>
@@ -945,7 +945,7 @@
       
       <!-- 6. خسائر تأخر صرف المستحقات -->
       <div class="section" id="delayedPayments">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-hourglass-half"></i>
           <h2>خسائر تأخر صرف المستحقات</h2>
         </div>
@@ -986,7 +986,7 @@
       
       <!-- 7. الأضرار المؤسسية -->
       <div class="section" id="institutionalDamages">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-building"></i>
           <h2>الأضرار المؤسسية</h2>
         </div>
@@ -1027,7 +1027,7 @@
       
       <!-- 8. خسائر المطالبة بالتعويضات والمتابعة القانونية والإجرائية -->
       <div class="section" id="legalClaimsLosses">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-gavel"></i>
           <h2>خسائر المطالبة بالتعويضات والمتابعة القانونية</h2>
         </div>
@@ -1068,7 +1068,7 @@
       
       <!-- 9. تكاليف إعادة التأهيل والتشغيل والتدريب للكوادر البشرية -->
       <div class="section" id="rehabilitationCosts">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-chalkboard-teacher"></i>
           <h2>تكاليف إعادة التأهيل والتشغيل والتدريب</h2>
         </div>
@@ -1110,7 +1110,7 @@
       <!-- (ثانياً: الأضرار غير المباشرة) -->
       <!-- 10. تعطيل الإنتاج والتأخير -->
       <div class="section" id="productionDelay">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-stopwatch"></i>
           <h2>تعطيل الإنتاج والتأخير</h2>
         </div>
@@ -1151,7 +1151,7 @@
       
       <!-- 11. خسارة القدرة التنافسية -->
       <div class="section" id="competitiveLoss">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-chart-line"></i>
           <h2>خسارة القدرة التنافسية</h2>
         </div>
@@ -1192,7 +1192,7 @@
       
       <!-- 12. الأضرار المعنوية والنفسية والصحية -->
       <div class="section" id="intangibleDamages">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-heartbeat"></i>
           <h2>الأضرار المعنوية والنفسية والصحية</h2>
         </div>
@@ -1233,7 +1233,7 @@
       
       <!-- 13. الضرر التكنولوجي أو البرمجي -->
       <div class="section" id="techDamage">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-laptop-code"></i>
           <h2>الضرر التكنولوجي أو البرمجي</h2>
         </div>
@@ -1274,7 +1274,7 @@
       
       <!-- 14. خسارة العملاء والشركاء والسمعة -->
       <div class="section" id="reputationLoss">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-users"></i>
           <h2>خسارة العملاء والسمعة</h2>
         </div>
@@ -1315,7 +1315,7 @@
       
       <!-- 15. خسارة الخطط المستقبلية والاستثمارية -->
       <div class="section" id="futurePlansLoss">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-chart-line"></i>
           <h2>خسارة الخطط المستقبلية والاستثمارية</h2>
         </div>
@@ -1357,7 +1357,7 @@
       <!-- (ثالثاً: أضرار أخرى) -->
       <!-- 16. أضرار أخرى -->
       <div class="section" id="otherDamages">
-        <div class="section-title">
+        <div class="section-title" style="color: #F1C40F;">
           <i class="fas fa-question-circle"></i>
           <h2>أضرار أخرى</h2>
         </div>
@@ -1398,7 +1398,7 @@
     
     <!-- قسم إدارة ملفات المطالبات -->
     <div class="extra-section" id="claimsManagement">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-folder-open"></i>
         <h2>إدارة ملفات المطالبات</h2>
       </div>
@@ -1417,7 +1417,7 @@
     
     <!-- قسم الوثائق والمستندات والدلائل -->
     <div class="extra-section documents-section" id="documentsSection">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-file-alt"></i>
         <h2>الوثائق والمستندات والدلائل</h2>
       </div>
@@ -1448,7 +1448,7 @@
     <!-- قسم الخلاصة النهائية -->
     
     <div class="section" id="sectionFinal">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-file-invoice-dollar"></i>
         <h2>الخلاصة النهائية</h2>
       </div>
@@ -1465,10 +1465,9 @@
       </div>
     </div>
     
-    
     <!-- قسم الدليل الإرشادي الشامل لنيل التعويضات -->
     <div class="extra-section" id="guidelines">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-chalkboard-teacher"></i>
         <h2>الدليل الإرشادي الشامل لنيل التعويضات العادلة عن الأضرار والخسائر في قطاع المقاولات اليمني</h2>
       </div>
@@ -1552,7 +1551,7 @@
     
 <!-- الدليل المرجعي القانوني لتعويض الأعيان المدنية وشركات المقاولات المتضررة -->
 <div class="extra-section" id="legalReference">
-  <div class="section-title">
+  <div class="section-title" style="color: #F1C40F;">
     <i class="fas fa-balance-scale"></i>
     <h2>الدليل المرجعي القانوني لتعويض الأعيان المدنية وشركات المقاولات المتضررة</h2>
   </div>
@@ -1587,7 +1586,7 @@
 
 <!-- الختام والتوصيات -->
 <div class="extra-section" id="conclusion">
-  <div class="section-title">
+  <div class="section-title" style="color: #F1C40F;">
     <i class="fas fa-check-circle"></i>
     <h2>الختام والتوصيات</h2>
   </div>
@@ -1697,7 +1696,7 @@
     
     <!-- قسم الإقرار والموافقة -->
     <div class="section">
-      <div class="section-title">
+      <div class="section-title" style="color: #F1C40F;">
         <i class="fas fa-check-circle"></i>
         <h2>الإقرار والموافقة</h2>
       </div>
@@ -1706,7 +1705,7 @@
           بموجب هذا، أقر بصحة البيانات والمعلومات المدخلة وأوافق على استخدامها لحساب الأضرار والخسائر، وأتعهد بتحمل المسؤولية القانونية عن دقتها.
         </p>
         <div class="input-group">
-          <label>
+          <label style="color: #F1C40F;">
             <input type="checkbox" id="agreement" required> أوافق على صحة البيانات المقدمة.
           </label>
         </div>
