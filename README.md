@@ -1727,7 +1727,7 @@
                         <td id="otherTotalUSD">0</td>
                     </tr>
                     <tr class="total-row">
-                        <td>18</td>
+                        <td></td>
                         <td>الإجمالي الكلي</td>
                         <td id="totalSumYER">0</td>
                         <td id="totalSumUSD">0</td>
