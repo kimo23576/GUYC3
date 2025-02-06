@@ -736,6 +736,28 @@
 
 </head>
 <body>
+
+<script>
+function addFuturePlansLoss() {
+    let container = document.getElementById("futurePlansLoss");
+    let newItem = document.createElement("div");
+    newItem.classList.add("item-card");
+    newItem.innerHTML = `
+        <input type="text" placeholder="مثال: تأجيل مشروع استثماري">
+        <input type="number" placeholder="المبلغ (ريال)" oninput="calculateSectionTotal('futurePlansLoss','futurePlansTotalYER','futurePlansTotalUSD')">
+        <input type="number" placeholder="مدة التأثير (بالسنوات)" oninput="calculateSectionTotal('futurePlansLoss','futurePlansTotalYER','futurePlansTotalUSD')">
+        <select class="currency">
+            <option value="YER">ريال يمني</option>
+            <option value="USD">دولار أمريكي</option>
+        </select>
+        <button class="remove-btn" onclick="this.parentElement.remove(); calculateSectionTotal('futurePlansLoss','futurePlansTotalYER','futurePlansTotalUSD')">
+            <i class="fas fa-times"></i> حذف
+        </button>
+    `;
+    container.appendChild(newItem);
+}
+</script>
+
   <div class="container">
     <!-- الهيدر -->
     <div class="header">
@@ -1469,7 +1491,7 @@
             <button class="remove-btn" onclick="this.parentElement.remove(); calculateSectionTotal('futurePlansLoss','futurePlansTotalYER','futurePlansTotalUSD')">
               <i class="fas fa-times"></i> حذف
             </button>
-            <button class="add-btn" onclick="addDamage('futurePlansLoss')">
+            <button class="add-btn" onclick="addFuturePlansLoss()">
               <i class="fas fa-plus"></i> إضافة بند
             </button>
           </div>
