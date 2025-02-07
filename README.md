@@ -2032,6 +2032,73 @@ function addFuturePlansLoss() {
       </button>
     </div>
     
+<div class="section">
+    <button class="btn" onclick="submitClaimFile()">
+        <i class="fas fa-paper-plane"></i> إرسال ملف المطالبة
+    </button>
+</div>
+<script>
+    function submitClaimFile() {
+        let formData = new FormData();
+        formData.append("fileNumber", document.getElementById("fileNumber").innerText);
+        formData.append("companyName", document.getElementById("companyName").value);
+        formData.append("contractorName", document.getElementById("contractorName").value);
+
+        fetch("https://your-email-api-endpoint", {
+            method: "POST",
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                alert("تم إرسال ملف المطالبة بنجاح!");
+            } else {
+                alert("حدث خطأ أثناء إرسال الملف.");
+            }
+        });
+    }
+</script>
+
+<div class="section">
+    <input type="text" id="claimFileNumber" placeholder="أدخل رقم الملف">
+    <button class="btn" onclick="manageClaimFile()">
+        <i class="fas fa-folder-open"></i> إدارة ملف المطالبة
+    </button>
+</div>
+<script>
+    function manageClaimFile() {
+        let fileNumber = document.getElementById("claimFileNumber").value;
+        if (fileNumber) {
+            window.open("https://kimo23576.github.io/GUYC3/?fileNumber=" + fileNumber, "_blank");
+        } else {
+            alert("يرجى إدخال رقم الملف!");
+        }
+    }
+</script>
+
+<div class="floating-button" onclick="trackClaimFile()">
+    <i class="fas fa-search"></i> متابعة الملف
+</div>
+<style>
+    .floating-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #F1C40F;
+        color: #1B2631;
+        padding: 15px;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        font-weight: bold;
+    }
+</style>
+<script>
+    function trackClaimFile() {
+        let fileNumber = prompt("أدخل رقم الملف لمتابعته:");
+        if (fileNumber) {
+            window.open("https://kimo23576.github.io/GUYC3/?fileNumber=" + fileNumber, "_blank");
+        }
+    }
+</script>
     <!-- الفوتر -->
     <div class="footer">
       <div class="contact-box">
