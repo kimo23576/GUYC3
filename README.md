@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -2403,3 +2404,6 @@ function addFuturePlansLoss() {
       setInterval(updateDateTime, 60000);
     });
   </script>
+</body>
+</html>
+
