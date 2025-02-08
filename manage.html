@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة ملف المطالبة</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #004080;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .form-section h2, .form-section h3 {
+      margin-top: 0;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #004080;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    .status {
+      font-weight: bold;
+      color: #d9534f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>إدارة ملف المطالبة</h1>
+  </header>
+  <main>
+    <div class="form-section" id="fileManagementSection">
+      <h2>تفاصيل الملف</h2>
+      <div id="fileDetails">
+        <!-- ستظهر تفاصيل الملف هنا -->
+      </div>
+      <div id="updateSection" style="display:none;">
+        <h3>تحديث الملف</h3>
+        <form id="updateForm">
+          <div class="form-group">
+            <label for="updateText">أضف التحديثات أو التعديلات:</label>
+            <textarea id="updateText" rows="5" required></textarea>
+          </div>
+          <button type="button" id="sendUpdateBtn">إرسال التحديثات</button>
+        </form>
+      </div>
+      <button type="button" onclick="goBack()">رجوع</button>
+    </div>
+  </main>
+  <script>
+    // دالة للحصول على معلمات الرابط (Query Parameters)
+    function getQueryParam(param) {
+      var params = new URLSearchParams(window.location.search);
+      return params.get(param);
+    }
+
+    // الحصول على رقم الملف من الرابط
+    var fileNumber = getQueryParam('file');
+    var fileDetailsDiv = document.getElementById('fileDetails');
+
+    if(fileNumber) {
+      // عرض تفاصيل الملف (تجريبي)
+      fileDetailsDiv.innerHTML = "<p>رقم الملف: " + fileNumber + "</p>" +
+                                 "<p>حالة الملف: <span class='status'>قيد الدراسة</span></p>" +
+                                 "<p>سيتم التواصل معكم عند اكتمال المعاملة أو في حالة وجود نقص أو ملاحظات.</p>";
+      document.getElementById('updateSection').style.display = "block";
+    } else {
+      fileDetailsDiv.innerHTML = "<p>الرجاء إدخال رقم الملف لإدارة ملف المطالبة.</p>" +
+                                 "<p><a href='index.html'>العودة إلى الصفحة الرئيسية</a></p>";
+    }
+
+    // وظيفة زر إرسال التحديثات باستخدام mailto:
+    document.getElementById('sendUpdateBtn').addEventListener('click', function(){
+      var updateText = document.getElementById('updateText').value;
+      if(updateText.trim() === "") {
+        alert("يرجى إدخال التحديثات المطلوبة.");
+        return;
+      }
+      var body = "رقم الملف: " + fileNumber + "%0D%0A" +
+                 "التحديثات: " + updateText;
+      window.location.href = "mailto:info@guyc-ye.com?subject=تحديث%20ملف%20المطالبة%20رقم%20" + encodeURIComponent(fileNumber) + "&body=" + body;
+    });
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>

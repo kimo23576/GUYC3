@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة ملفات المطالبات - الإستمارة الذكية</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #004080;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .form-section h2, .form-section h3 {
+      margin-top: 0;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #004080;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    /* زر عائم متابعة الملف */
+    .floating-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background-color: #28a745;
+      color: #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    /* تنسيقات النافذة المنبثقة (Modal) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 5px;
+    }
+    .close {
+      color: #aaa;
+      float: left;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover, .close:focus {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>نظام إدارة ملفات المطالبات</h1>
+  </header>
+  <main>
+    <!-- قسم الإستمارة -->
+    <div class="form-section" id="claimForm">
+      <h2>إستمارة المطالبة</h2>
+      <form id="claimSubmissionForm">
+        <div class="form-group">
+          <label for="claimName">اسم المطالب:</label>
+          <input type="text" id="claimName" name="claimName" required>
+        </div>
+        <div class="form-group">
+          <label for="claimEmail">البريد الإلكتروني:</label>
+          <input type="email" id="claimEmail" name="claimEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="claimDetails">تفاصيل المطالبة:</label>
+          <textarea id="claimDetails" name="claimDetails" rows="5" required></textarea>
+        </div>
+        <!-- يمكن إضافة حقول أخرى حسب الحاجة -->
+        <div class="form-group" id="acknowledgementSection">
+          <h3>قسم الإقرار والموافقة</h3>
+          <p>أقر وأوافق على تسليم ملف المطالبة والموافقة على جميع الشروط والأحكام.</p>
+          <!-- زر "نهاية الإستمارة" لإرسال ملف المطالبة -->
+          <button type="button" id="submitClaimBtn">نهاية الإستمارة</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- زر لإدارة ملف المطالبة (يظهر في صفحة الإستمارة) -->
+    <div class="form-section">
+      <button type="button" id="manageClaimBtn">إدارة ملف المطالبة</button>
+    </div>
+  </main>
+
+  <!-- زر عائم "متابعة الملف" -->
+  <div class="floating-btn" id="followClaimBtn" title="متابعة الملف">
+    متابعة
+  </div>
+
+  <!-- نافذة منبثقة لإدخال رقم الملف -->
+  <div id="fileModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3>إدارة ملف المطالبة</h3>
+      <form id="fileNumberForm">
+        <div class="form-group">
+          <label for="fileNumber">أدخل رقم الملف:</label>
+          <input type="text" id="fileNumber" name="fileNumber" required>
+        </div>
+        <button type="submit">عرض الملف</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // وظيفة زر "نهاية الإستمارة": تجميع البيانات وفتح نافذة البريد الإلكتروني باستخدام mailto:
+    document.getElementById('submitClaimBtn').addEventListener('click', function(){
+      var name = document.getElementById('claimName').value;
+      var email = document.getElementById('claimEmail').value;
+      var details = document.getElementById('claimDetails').value;
+      // توليد رقم ملف عشوائي (يمكن استبداله بمنهجية توليد رقم ملف أكثر دقة)
+      var fileNumber = Math.floor(Math.random() * 90000) + 10000;
+
+      var body = "رقم الملف: " + fileNumber + "%0D%0A" +
+                 "اسم المطالب: " + name + "%0D%0A" +
+                 "البريد الإلكتروني: " + email + "%0D%0A" +
+                 "تفاصيل المطالبة: " + details;
+      
+      window.location.href = "mailto:info@guyc-ye.com?subject=ملف%20مطالبة%20جديد&body=" + body;
+    });
+
+    // عند الضغط على زر "إدارة ملف المطالبة" يتم فتح النافذة المنبثقة
+    document.getElementById('manageClaimBtn').addEventListener('click', function(){
+      document.getElementById('fileModal').style.display = 'block';
+    });
+
+    // الزر العائم "متابعة الملف" ينقل المستخدم إلى صفحة إدارة الملفات (manage.html)
+    document.getElementById('followClaimBtn').addEventListener('click', function(){
+      window.location.href = "manage.html";
+    });
+
+    // إغلاق النافذة المنبثقة عند الضغط على (×)
+    document.getElementById('closeModal').addEventListener('click', function(){
+      document.getElementById('fileModal').style.display = 'none';
+    });
+
+    // عند تقديم نموذج إدخال رقم الملف في النافذة المنبثقة
+    document.getElementById('fileNumberForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var fileNumber = document.getElementById('fileNumber').value;
+      // نقوم بنقل المستخدم إلى صفحة إدارة الملفات مع تمرير رقم الملف عبر الرابط
+      window.location.href = "manage.html?file=" + encodeURIComponent(fileNumber);
+    });
+
+    // إغلاق النافذة المنبثقة إذا تم النقر خارج محتواها
+    window.onclick = function(event) {
+      var modal = document.getElementById('fileModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+</body>
+</html>
