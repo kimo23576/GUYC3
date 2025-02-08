@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة ملفات المطالبات - الإستمارة الذكية</title>
+  <style>
+    /* تنسيقات عامة */
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header, footer {
+      background-color: #004080;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      margin: 0 0 10px;
+    }
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #004080;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    /* زر عائم متابعة الملف */
+    .floating-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background-color: #28a745;
+      color: #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    /* تنسيقات النافذة المنبثقة (Modal) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 8px;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>نظام إدارة ملفات المطالبات</h1>
+  </header>
+  
+  <main>
+    <!-- استمارة المطالبة -->
+    <div class="form-section" id="claimFormSection">
+      <h2>إستمارة المطالبة</h2>
+      <form id="claimForm">
+        <div class="form-group">
+          <label for="claimName">اسم المطالب:</label>
+          <input type="text" id="claimName" name="claimName" placeholder="أدخل اسمك" required>
+        </div>
+        <div class="form-group">
+          <label for="claimEmail">البريد الإلكتروني:</label>
+          <input type="email" id="claimEmail" name="claimEmail" placeholder="example@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label for="claimDetails">تفاصيل المطالبة:</label>
+          <textarea id="claimDetails" name="claimDetails" rows="5" placeholder="أدخل تفاصيل المطالبة" required></textarea>
+        </div>
+        <!-- قسم الإقرار والموافقة -->
+        <div class="form-group" id="acknowledgementSection">
+          <h3>قسم الإقرار والموافقة</h3>
+          <p>أقر وأوافق على تسليم ملف المطالبة والموافقة على جميع الشروط والأحكام.</p>
+          <!-- زر "نهاية الإستمارة" -->
+          <button type="button" id="submitClaimBtn">نهاية الإستمارة</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- زر لإدارة ملف المطالبة (يفتح نافذة منبثقة لإدخال رقم الملف) -->
+    <div class="form-section" style="text-align:center;">
+      <button type="button" id="openManageModalBtn">إدارة ملف المطالبة</button>
+    </div>
+  </main>
+
+  <!-- زر عائم "متابعة الملف" -->
+  <div class="floating-btn" id="followClaimBtn" title="متابعة الملف">
+    متابعة
+  </div>
+
+  <!-- نافذة منبثقة لإدخال رقم الملف -->
+  <div id="manageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3>إدارة ملف المطالبة</h3>
+      <form id="fileNumberForm">
+        <div class="form-group">
+          <label for="inputFileNumber">أدخل رقم الملف:</label>
+          <input type="text" id="inputFileNumber" name="inputFileNumber" placeholder="مثال: 12345" required>
+        </div>
+        <button type="submit">عرض الملف</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 الإستمارة الذكية - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    /* وظيفة توليد رقم ملف عشوائي فريد */
+    function generateFileNumber() {
+      // يمكن استخدام التاريخ مع رقم عشوائي للحصول على قيمة أكثر تميزاً
+      return Date.now().toString().slice(-5) + Math.floor(Math.random() * 90 + 10);
+    }
+
+    /* وظيفة تخزين بيانات المطالبة في localStorage */
+    function storeClaimData(fileNumber, data) {
+      // نقوم بتخزين بيانات الملف كـ JSON في localStorage باستخدام رقم الملف كمفتاح
+      localStorage.setItem('claim_' + fileNumber, JSON.stringify(data));
+    }
+
+    /* وظيفة الحصول على بيانات المطالبة من localStorage */
+    function getClaimData(fileNumber) {
+      var data = localStorage.getItem('claim_' + fileNumber);
+      return data ? JSON.parse(data) : null;
+    }
+
+    // عند الضغط على زر "نهاية الإستمارة"
+    document.getElementById('submitClaimBtn').addEventListener('click', function() {
+      var name = document.getElementById('claimName').value.trim();
+      var email = document.getElementById('claimEmail').value.trim();
+      var details = document.getElementById('claimDetails').value.trim();
+
+      if (name === "" || email === "" || details === "") {
+        alert("يرجى ملء جميع الحقول المطلوبة.");
+        return;
+      }
+
+      // توليد رقم الملف
+      var fileNumber = generateFileNumber();
+
+      // إنشاء كائن بيانات المطالبة
+      var claimData = {
+        fileNumber: fileNumber,
+        name: name,
+        email: email,
+        details: details,
+        status: "قيد الدراسة",
+        timestamp: new Date().toISOString(),
+        updates: []  // لتخزين التحديثات لاحقاً
+      };
+
+      // تخزين بيانات المطالبة محلياً
+      storeClaimData(fileNumber, claimData);
+
+      // إعداد محتوى البريد الإلكتروني
+      var emailSubject = "ملف مطالبة جديد - رقم الملف " + fileNumber;
+      var emailBody = "رقم الملف: " + fileNumber + "%0D%0A" +
+                      "اسم المطالب: " + name + "%0D%0A" +
+                      "البريد الإلكتروني: " + email + "%0D%0A" +
+                      "تفاصيل المطالبة: " + details + "%0D%0A" +
+                      "حالة الملف: " + claimData.status;
+      // فتح برنامج البريد الإلكتروني باستخدام mailto:
+      window.location.href = "mailto:info@guyc-ye.com?subject=" + encodeURIComponent(emailSubject) + "&body=" + encodeURIComponent(emailBody);
+      
+      // إعلام المستخدم برقم الملف (يمكن عرض رسالة تأكيد)
+      alert("تم إرسال ملف المطالبة! رقم الملف هو: " + fileNumber + "\nيمكنك استخدامه لمتابعة ملفك لاحقاً.");
+      
+      // إعادة تعيين النموذج
+      document.getElementById('claimForm').reset();
+    });
+
+    // فتح النافذة المنبثقة لإدارة الملف
+    document.getElementById('openManageModalBtn').addEventListener('click', function() {
+      document.getElementById('manageModal').style.display = 'block';
+    });
+
+    // إغلاق النافذة المنبثقة عند الضغط على (×)
+    document.getElementById('closeModal').addEventListener('click', function() {
+      document.getElementById('manageModal').style.display = 'none';
+    });
+
+    // عند تقديم نموذج إدخال رقم الملف من النافذة المنبثقة
+    document.getElementById('fileNumberForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var inputFileNumber = document.getElementById('inputFileNumber').value.trim();
+      if (inputFileNumber === "") {
+        alert("يرجى إدخال رقم الملف.");
+        return;
+      }
+      // تحقق من وجود الملف في localStorage
+      if (!getClaimData(inputFileNumber)) {
+        alert("رقم الملف غير موجود. يرجى التأكد من الرقم المدخل.");
+        return;
+      }
+      // نقل المستخدم إلى صفحة إدارة الملف مع تمرير رقم الملف في معلمات الرابط
+      window.location.href = "manage.html?file=" + encodeURIComponent(inputFileNumber);
+    });
+
+    // زر المتابعة العائم: ينقل المستخدم إلى صفحة إدارة الملف (في حالة كان لديه رقم ملف محفوظ)
+    document.getElementById('followClaimBtn').addEventListener('click', function() {
+      // يمكن عرض نافذة منبثقة مشابهة لطلب رقم الملف أو توجيه المستخدم إلى صفحة إدارة الملف
+      var fileNum = prompt("يرجى إدخال رقم الملف الخاص بك لمتابعته:");
+      if (fileNum) {
+        if (!getClaimData(fileNum.trim())) {
+          alert("رقم الملف غير موجود. يرجى التأكد من الرقم المدخل.");
+        } else {
+          window.location.href = "manage.html?file=" + encodeURIComponent(fileNum.trim());
+        }
+      }
+    });
+
+    // إغلاق النافذة المنبثقة إذا تم النقر خارج محتواها
+    window.addEventListener('click', function(event) {
+      var modal = document.getElementById('manageModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
