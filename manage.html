@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة ملف المطالبة</title>
+  <style>
+    /* تنسيقات عامة */
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header, footer {
+      background-color: #004080;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      margin: 0 0 10px;
+    }
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #004080;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #003366;
+    }
+    .status {
+      font-weight: bold;
+      color: #d9534f;
+    }
+    .success {
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>إدارة ملف المطالبة</h1>
+  </header>
+  <main>
+    <div class="form-section" id="fileManagementSection">
+      <div id="fileContent">
+        <!-- سيتم عرض تفاصيل الملف هنا -->
+      </div>
+      <!-- نموذج تحديث الملف (يظهر إذا كان الملف موجوداً) -->
+      <div id="updateSection" style="display:none;">
+        <h3>تحديث الملف</h3>
+        <form id="updateForm">
+          <div class="form-group">
+            <label for="updateText">أضف التحديثات أو التعديلات:</label>
+            <textarea id="updateText" rows="5" placeholder="أدخل التحديثات" required></textarea>
+          </div>
+          <button type="button" id="sendUpdateBtn">إرسال التحديثات</button>
+        </form>
+      </div>
+      <button type="button" onclick="goBack()">رجوع</button>
+    </div>
+  </main>
+  <footer>
+    <p>© 2025 الإستمارة الذكية - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    /* دالة لاسترجاع معلمات الرابط */
+    function getQueryParam(param) {
+      var params = new URLSearchParams(window.location.search);
+      return params.get(param);
+    }
+
+    /* دوال للتعامل مع localStorage (نفسها كما في index.html) */
+    function getClaimData(fileNumber) {
+      var data = localStorage.getItem('claim_' + fileNumber);
+      return data ? JSON.parse(data) : null;
+    }
+    function storeClaimData(fileNumber, data) {
+      localStorage.setItem('claim_' + fileNumber, JSON.stringify(data));
+    }
+
+    // الحصول على رقم الملف من معلمات الرابط
+    var fileNumber = getQueryParam('file');
+    var fileContentDiv = document.getElementById('fileContent');
+    var updateSectionDiv = document.getElementById('updateSection');
+
+    if (fileNumber) {
+      var claimData = getClaimData(fileNumber);
+      if (claimData) {
+        // عرض تفاصيل الملف
+        fileContentDiv.innerHTML = "<p><strong>رقم الملف:</strong> " + claimData.fileNumber + "</p>" +
+                                   "<p><strong>اسم المطالب:</strong> " + claimData.name + "</p>" +
+                                   "<p><strong>البريد الإلكتروني:</strong> " + claimData.email + "</p>" +
+                                   "<p><strong>تفاصيل المطالبة:</strong> " + claimData.details + "</p>" +
+                                   "<p><strong>حالة الملف:</strong> <span class='status'>" + claimData.status + "</span></p>" +
+                                   "<p><strong>تاريخ التسجيل:</strong> " + new Date(claimData.timestamp).toLocaleString() + "</p>";
+        // عرض التحديثات السابقة إن وُجدت
+        if(claimData.updates && claimData.updates.length > 0) {
+          var updatesHtml = "<h3>التحديثات السابقة:</h3><ul>";
+          claimData.updates.forEach(function(item) {
+            updatesHtml += "<li>" + item.date + " - " + item.text + "</li>";
+          });
+          updatesHtml += "</ul>";
+          fileContentDiv.innerHTML += updatesHtml;
+        }
+        updateSectionDiv.style.display = "block";
+      } else {
+        fileContentDiv.innerHTML = "<p style='color:#d9534f;'>رقم الملف غير موجود. يرجى التأكد من الرقم أو الرجوع إلى الصفحة الرئيسية.</p>" +
+                                   "<p><a href='index.html'>العودة إلى الصفحة الرئيسية</a></p>";
+      }
+    } else {
+      // إذا لم يتم إرسال رقم الملف، عرض نموذج لإدخاله
+      fileContentDiv.innerHTML = "<p>يرجى إدخال رقم الملف الخاص بك:</p>" +
+                                 "<form id='fileSearchForm'>" +
+                                 "<div class='form-group'><input type='text' id='searchFileNumber' placeholder='مثال: 12345' required></div>" +
+                                 "<button type='submit'>عرض الملف</button>" +
+                                 "</form>";
+      document.getElementById('fileSearchForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var searchFile = document.getElementById('searchFileNumber').value.trim();
+        if (searchFile) {
+          window.location.href = "manage.html?file=" + encodeURIComponent(searchFile);
+        }
+      });
+    }
+
+    // وظيفة إرسال التحديثات
+    document.getElementById('sendUpdateBtn') && document.getElementById('sendUpdateBtn').addEventListener('click', function() {
+      var updateText = document.getElementById('updateText').value.trim();
+      if (updateText === "") {
+        alert("يرجى إدخال التحديثات المطلوبة.");
+        return;
+      }
+      // تحديث بيانات الملف في localStorage
+      claimData.updates = claimData.updates || [];
+      var updateEntry = {
+        date: new Date().toLocaleString(),
+        text: updateText
+      };
+      claimData.updates.push(updateEntry);
+      // يمكن تحديث حالة الملف عند إجراء تعديل (مثلاً: "قيد الدراسة")
+      claimData.status = "قيد الدراسة";
+      storeClaimData(fileNumber, claimData);
+
+      // إعداد محتوى البريد الإلكتروني للتحديث
+      var emailSubject = "تحديث ملف مطالبة - رقم الملف " + fileNumber;
+      var emailBody = "رقم الملف: " + fileNumber + "%0D%0A" +
+                      "التحديث المضاف: " + updateText + "%0D%0A" +
+                      "تاريخ التحديث: " + updateEntry.date;
+      window.location.href = "mailto:info@guyc-ye.com?subject=" + encodeURIComponent(emailSubject) + "&body=" + encodeURIComponent(emailBody);
+
+      alert("تم إرسال التحديث بنجاح!");
+      // تحديث العرض: يمكن إعادة تحميل الصفحة لعرض التحديثات
+      location.reload();
+    });
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>
